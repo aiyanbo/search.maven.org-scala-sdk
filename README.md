@@ -1,1 +1,1 @@
-# search.maven.org-scala-sdk
+# search.maven.org Scala SDK
