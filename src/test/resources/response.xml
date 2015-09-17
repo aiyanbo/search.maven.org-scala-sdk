@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+    <lst name="responseHeader">
+        <int name="status">0</int>
+        <int name="QTime">2</int>
+        <lst name="params">
+            <str name="fl">id,g,a,v,p,ec,timestamp,tags</str>
+            <str name="sort">score desc,timestamp desc,g asc,a asc,v desc</str>
+            <str name="indent">off</str>
+            <str name="q">g:"org.scala-lang" AND a:"scala-reflect"</str>
+            <str name="core">gav</str>
+            <str name="wt">xml</str>
+            <str name="rows">20</str>
+            <str name="version">2.2</str>
+        </lst>
+    </lst>
+    <result name="response" numFound="47" start="0">
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.12.0-M2</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1436884343000</long>
+            <str name="v">2.12.0-M2</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.11.7</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1435004266000</long>
+            <str name="v">2.11.7</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.12.0-M1</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1430497688000</long>
+            <str name="v">2.12.0-M1</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.10.5</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1425002085000</long>
+            <str name="v">2.10.5</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.11.6</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1424912475000</long>
+            <str name="v">2.11.6</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.11.5</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1420590744000</long>
+            <str name="v">2.11.5</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.11.4</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1414078505000</long>
+            <str name="v">2.11.4</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.11.3</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1412962430000</long>
+            <str name="v">2.11.3</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.11.2</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1406097551000</long>
+            <str name="v">2.11.2</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.11.1</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1400572966000</long>
+            <str name="v">2.11.1</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.11.0</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1397639630000</long>
+            <str name="v">2.11.0</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.11.0-RC4</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1396645961000</long>
+            <str name="v">2.11.0-RC4</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.11.0-RC3</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1395194787000</long>
+            <str name="v">2.11.0-RC3</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.10.4</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1395179227000</long>
+            <str name="v">2.10.4</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.11.0-RC1</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1393567253000</long>
+            <str name="v">2.11.0-RC1</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.10.4-RC3</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1392108585000</long>
+            <str name="v">2.10.4-RC3</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.10.4-RC2</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1390324984000</long>
+            <str name="v">2.10.4-RC2</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.11.0-M8</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1390172315000</long>
+            <str name="v">2.11.0-M8</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.10.4-RC1</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1386880692000</long>
+            <str name="v">2.10.4-RC1</str>
+        </doc>
+        <doc>
+            <str name="a">scala-reflect</str>
+            <arr name="ec">
+                <str>-javadoc.jar</str>
+                <str>-sources.jar</str>
+                <str>.jar</str>
+                <str>.pom</str>
+            </arr>
+            <str name="g">org.scala-lang</str>
+            <str name="id">org.scala-lang:scala-reflect:2.11.0-M7</str>
+            <str name="p">jar</str>
+            <arr name="tags">
+                <str>programming</str>
+                <str>compiler</str>
+                <str>language</str>
+                <str>scala</str>
+            </arr>
+            <long name="timestamp">1384804969000</long>
+            <str name="v">2.11.0-M7</str>
+        </doc>
+    </result>
+</response>
