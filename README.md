@@ -1,4 +1,4 @@
-# search.maven.org Scala SDK
+# Maven Repository Scala SDK
 
 ---
 
