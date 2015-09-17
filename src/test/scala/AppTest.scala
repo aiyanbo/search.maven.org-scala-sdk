@@ -15,11 +15,8 @@ class AppTest extends FunSuite {
     val mapper = new ObjectMapper() with ScalaObjectMapper
     mapper.registerModule(DefaultScalaModule)
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-    val x = docsExpr.findFirstMatchIn(s).get.group(1)
-    s match {
-      case docsExpr(docs) ⇒
-        println(mapper.readValue[List[Artifact]](docs))
-    }
+    val docs = for (m ← docsExpr findFirstMatchIn s) yield m group 1
+    println(mapper.readValue[List[Artifact]](docs.getOrElse("[]")))
   }
 
   test("To parameters") {
