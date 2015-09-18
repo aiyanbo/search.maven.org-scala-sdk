@@ -1,4 +1,4 @@
-package org.jmotor.tools
+package org.jmotor.tools.dto
 
 /**
  * Component:
