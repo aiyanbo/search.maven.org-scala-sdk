@@ -25,7 +25,7 @@ object MavenSearchClient {
 
   def search(request: MavenSearchRequest): List[Artifact] = {
     val f: Future[Response] = httpClient.prepareGet(s"$rootPath?${request.toParameter}").execute()
-    val response = f.get(5, TimeUnit.SECONDS)
+    val response = f.get
     if (response.getStatusCode == 200) {
       val docs = for (m ← """.*"docs" ?: ?(\[.*\]).*""".r findFirstMatchIn response.getResponseBody) yield m group 1
       mapper.readValue[List[Artifact]](docs.getOrElse("[]"))
