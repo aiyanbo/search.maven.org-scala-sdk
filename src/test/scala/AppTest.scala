@@ -1,11 +1,11 @@
 import java.util.concurrent.Future
 
-import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}
+import com.fasterxml.jackson.databind.{ DeserializationFeature, ObjectMapper }
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
-import com.ning.http.client.{AsyncHttpClient, Response}
+import com.ning.http.client.{ AsyncHttpClient, Response }
 import org.jmotor.tools.MavenSearchClient
-import org.jmotor.tools.dto.{MavenSearchRequest, Artifact}
+import org.jmotor.tools.dto.{ MavenSearchRequest, Artifact }
 import org.scalatest._
 
 class AppTest extends FunSuite {
@@ -22,7 +22,6 @@ class AppTest extends FunSuite {
     println(s"Cost: ${System.currentTimeMillis() - start}, size: ${results.size}")
     println(s)
   }
-
 
   test("latestVersion") {
     println(MavenSearchClient.latestVersion("org.scala-lang", "scala-reflect"))

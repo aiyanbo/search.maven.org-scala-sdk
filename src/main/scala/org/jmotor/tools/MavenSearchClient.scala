@@ -1,12 +1,12 @@
 package org.jmotor.tools
 
-import java.util.concurrent.{Future, TimeUnit}
+import java.util.concurrent.{ Future, TimeUnit }
 
-import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}
+import com.fasterxml.jackson.databind.{ DeserializationFeature, ObjectMapper }
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
-import com.ning.http.client.{AsyncHttpClient, Response}
-import org.jmotor.tools.dto.{MavenSearchRequest, Artifact}
+import com.ning.http.client.{ AsyncHttpClient, Response }
+import org.jmotor.tools.dto.{ MavenSearchRequest, Artifact }
 
 /**
  * Component:
@@ -39,7 +39,7 @@ object MavenSearchClient {
     val f: Future[Response] = httpClient.prepareGet(s"$rootPath?${request.toParameter}").execute()
     val response = f.get(timeout, TimeUnit.MILLISECONDS)
     if (response.getStatusCode == 200) {
-      val latest = for (m <- """"latestVersion": ?"([\d|\w|.|-]*)"""".r findFirstMatchIn response.getResponseBody) yield m group 1
+      val latest = for (m ← """"latestVersion": ?"([\d|\w|.|-]*)"""".r findFirstMatchIn response.getResponseBody) yield m group 1
       latest.orNull
     } else {
       null
