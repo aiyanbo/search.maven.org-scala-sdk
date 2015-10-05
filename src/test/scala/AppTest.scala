@@ -11,9 +11,9 @@ import org.scalatest._
 class AppTest extends FunSuite {
   test("JSON") {
     val start = System.currentTimeMillis()
-    val request = MavenSearchRequest(Some("org.scala-lang"), Some("scala-reflect"), None, wt = "json", core = "ga", rows = 50)
+    val request = MavenSearchRequest(Some("org.scala-lang"), Some("scala-library"), None, wt = "json", core = "gav", rows = 50)
     val s = execute(request)
-    val docsExpr = """.*"docs" ?: ?(\[.*\]).*""".r
+    val docsExpr = """"docs" ?: ?(\[.*\])""".r
     val mapper = new ObjectMapper() with ScalaObjectMapper
     mapper.registerModule(DefaultScalaModule)
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -24,12 +24,17 @@ class AppTest extends FunSuite {
   }
 
   test("latestVersion") {
-    println(MavenSearchClient.latestVersion("org.scala-lang", "scala-reflect"))
+    println(MavenSearchClient.latestVersion("org.scala-lang", "scala-library"))
   }
 
   test("To parameters") {
-    val request = MavenSearchRequest(Some("org.scala-lang"), Some("scala-reflect"), None)
+    val request = MavenSearchRequest(Some("org.scala-lang"), Some("scala-library"), None)
     println(request.toParameter)
+  }
+
+  test("Select All") {
+    val result = MavenSearchClient.selectAll("org.scala-lang", "scala-library")
+    println(result.size)
   }
 
   def execute(request: MavenSearchRequest): String = {

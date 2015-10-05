@@ -9,7 +9,7 @@ package org.jmotor.tools.dto
  */
 case class MavenSearchRequest(groupId: Option[String], artifactId: Option[String],
                               version: Option[String], tags: Option[String] = None,
-                              delimiter: String = " AND ", rows: Int = 20,
+                              delimiter: String = " AND ", rows: Int = 20, start: Int = 0,
                               core: String = "gav", wt: String = "json") {
   def toParameter: String = {
     val parameters: String = List(
@@ -17,6 +17,6 @@ case class MavenSearchRequest(groupId: Option[String], artifactId: Option[String
       artifactId.map(v ⇒ s"""a:"$v"""").getOrElse(""),
       version.map(v ⇒ s"""v:"$v"""").getOrElse(""),
       tags.map(v ⇒ s"""tags:"$v"""").getOrElse("")).filter(v ⇒ !v.isEmpty).reduce(_ + delimiter + _)
-    s"q=$parameters&core=$core&rows=$rows&wt=$wt"
+    s"q=$parameters&core=$core&rows=$rows&wt=$wt&start=$start"
   }
 }
