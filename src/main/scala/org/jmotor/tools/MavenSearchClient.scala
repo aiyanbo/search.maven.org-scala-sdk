@@ -44,12 +44,11 @@ object MavenSearchClient {
       val versionCount = for (m ← """"versionCount": ?(\d+),""".r findFirstMatchIn response.getResponseBody) yield m group 1
       val count = versionCount.getOrElse("0").toInt
       if (count > 0) {
-        val result: mutable.MutableList[Artifact] = new mutable.MutableList()
-        val futures: mutable.MutableList[Future[Response]] = new mutable.MutableList()
-        for (i ← 0 to pages(count, rows)) {
+        val futures = for (i ← 0 to pages(count, rows)) yield {
           val request = MavenSearchRequest(Some(groupId), Some(artifactId), None, rows = rows, start = i * rows)
-          futures += httpClient.prepareGet(s"$rootPath?${request.toParameter}").execute()
+          httpClient.prepareGet(s"$rootPath?${request.toParameter}").execute()
         }
+        val result: mutable.MutableList[Artifact] = new mutable.MutableList()
         for (f ← futures) {
           result ++= unpacking(f.get(timeout, TimeUnit.MILLISECONDS))
         }
