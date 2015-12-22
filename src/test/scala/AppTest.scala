@@ -7,6 +7,11 @@ import com.ning.http.client.{ AsyncHttpClient, Response }
 import org.jmotor.tools.MavenSearchClient
 import org.jmotor.tools.dto.{ MavenSearchRequest, Artifact }
 import org.scalatest._
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
+
+import scala.util.{ Failure, Success }
 
 class AppTest extends FunSuite {
   test("JSON") {
@@ -24,7 +29,9 @@ class AppTest extends FunSuite {
   }
 
   test("latestVersion") {
-    println(MavenSearchClient.latestVersion("org.scala-lang", "scala-library"))
+    val future = MavenSearchClient.latestVersion("org.scala-lang", "scala-library")
+    val result = Await.result(future, 10.seconds)
+    println(result.get)
   }
 
   test("To parameters") {
@@ -33,8 +40,16 @@ class AppTest extends FunSuite {
   }
 
   test("Select All") {
-    val result = MavenSearchClient.selectAll("org.scala-lang", "scala-library")
-    println(result.size)
+    val future = MavenSearchClient.selectAll("org.scala-lang", "scala-library")
+    val result = Await.result(future, 30.seconds)
+    println(result)
+  }
+
+  test("Search") {
+    val request = new MavenSearchRequest(Some("org.scala-lang"), Some("scala-library"), None)
+    val future = MavenSearchClient.search(request)
+    val result = Await.result(future, 30.seconds)
+    println(result)
   }
 
   def execute(request: MavenSearchRequest): String = {

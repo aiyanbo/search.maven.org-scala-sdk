@@ -1,14 +1,12 @@
 package org.jmotor.tools
 
-import java.util.concurrent.{ Future, TimeUnit }
-
 import com.fasterxml.jackson.databind.{ DeserializationFeature, ObjectMapper }
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
-import com.ning.http.client.{ AsyncHttpClient, Response }
-import org.jmotor.tools.dto.{ MavenSearchRequest, Artifact }
+import com.ning.http.client.{ AsyncCompletionHandler, AsyncHttpClient, Response }
+import org.jmotor.tools.dto.{ Artifact, MavenSearchRequest }
 
-import scala.collection.mutable
+import scala.concurrent.{ ExecutionContext, Future, Promise }
 
 /**
  * Component:
@@ -18,58 +16,46 @@ import scala.collection.mutable
  * @author Andy.Ai
  */
 object MavenSearchClient {
-  private val httpClient: AsyncHttpClient = new AsyncHttpClient()
+  private val client: AsyncHttpClient = new AsyncHttpClient()
   private val rootPath: String = "http://search.maven.org/solrsearch/select"
   private val mapper = new ObjectMapper() with ScalaObjectMapper
 
   mapper.registerModule(DefaultScalaModule)
   mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
-  def search(request: MavenSearchRequest)(implicit timeout: Int = 5000): List[Artifact] = {
-    val f: Future[Response] = httpClient.prepareGet(s"$rootPath?${request.toParameter}").execute()
-    val response = f.get(timeout, TimeUnit.MILLISECONDS)
-    if (response.getStatusCode == 200) {
-      unpacking(response)
-    } else {
-      List.empty[Artifact]
-    }
+  def search(request: MavenSearchRequest)(implicit executor: ExecutionContext): Future[List[Artifact]] = {
+    execute(client.prepareGet(s"$rootPath?${request.toParameter}")).map(unpacking)
   }
 
-  def selectAll(groupId: String, artifactId: String)(implicit timeout: Int = 5000): List[Artifact] = {
-    val rows = 50
+  def selectAll(groupId: String, artifactId: String)(implicit executor: ExecutionContext): Future[List[Artifact]] = {
     val totalRequest = MavenSearchRequest(Some(groupId), Some(artifactId), None, core = "ga")
-    val f: Future[Response] = httpClient.prepareGet(s"$rootPath?${totalRequest.toParameter}").execute()
-    val response = f.get(timeout, TimeUnit.MILLISECONDS)
-    if (response.getStatusCode == 200) {
-      val versionCount = for (m ← """"versionCount": ?(\d+),""".r findFirstMatchIn response.getResponseBody) yield m group 1
-      val count = versionCount.getOrElse("0").toInt
-      if (count > 0) {
-        val futures = for (i ← 0 to pages(count, rows)) yield {
-          val request = MavenSearchRequest(Some(groupId), Some(artifactId), None, rows = rows, start = i * rows)
-          httpClient.prepareGet(s"$rootPath?${request.toParameter}").execute()
+    execute(client.prepareGet(s"$rootPath?${totalRequest.toParameter}")).flatMap {
+      case response if response.getStatusCode == 200 ⇒
+        val rows = 50
+        val count = (for (m ← """"versionCount": ?(\d+),""".r findFirstMatchIn response.getResponseBody) yield m group 1).getOrElse("0").toInt
+        if (count > 0) {
+          val futures = for (index ← 0 to pages(count, rows)) yield {
+            val request = MavenSearchRequest(Some(groupId), Some(artifactId), None, rows = rows, start = index * rows)
+            execute(client.prepareGet(s"$rootPath?${request.toParameter}"))
+          }
+          futures.foldLeft(Future.successful(List.empty[Artifact]))((l, r) ⇒ {
+            l.flatMap(l_list ⇒ {
+              r.map(l_list ++ unpacking(_))
+            })
+          })
+        } else {
+          Future.successful(List.empty[Artifact])
         }
-        val result: mutable.MutableList[Artifact] = new mutable.MutableList()
-        for (f ← futures) {
-          result ++= unpacking(f.get(timeout, TimeUnit.MILLISECONDS))
-        }
-        result.toList
-      } else {
-        List.empty[Artifact]
-      }
-    } else {
-      List.empty[Artifact]
+      case _ ⇒ Future.successful(List.empty[Artifact])
     }
   }
 
-  def latestVersion(groupId: String, artifactId: String)(implicit timeout: Int = 5000): String = {
+  def latestVersion(groupId: String, artifactId: String)(implicit executor: ExecutionContext): Future[Option[String]] = {
     val request = MavenSearchRequest(Some(groupId), Some(artifactId), None, core = "ga", rows = 1)
-    val f: Future[Response] = httpClient.prepareGet(s"$rootPath?${request.toParameter}").execute()
-    val response = f.get(timeout, TimeUnit.MILLISECONDS)
-    if (response.getStatusCode == 200) {
-      val latest = for (m ← """"latestVersion": ?"([\d|\w|.|-]*)"""".r findFirstMatchIn response.getResponseBody) yield m group 1
-      latest.orNull
-    } else {
-      null
+    execute(client.prepareGet(s"$rootPath?${request.toParameter}")).map {
+      case response if response.getStatusCode == 200 ⇒
+        for (m ← """"latestVersion": ?"([\d|\w|.|-]*)"""".r findFirstMatchIn response.getResponseBody) yield m group 1
+      case _ ⇒ None
     }
   }
 
@@ -82,7 +68,26 @@ object MavenSearchClient {
   }
 
   private def unpacking(response: Response): List[Artifact] = {
-    val docs = for (m ← """"docs" ?: ?(\[.*\])""".r findFirstMatchIn response.getResponseBody) yield m group 1
-    mapper.readValue[List[Artifact]](docs.getOrElse("[]"))
+    if (response.getStatusCode == 200) {
+      val docs = for (m ← """"docs" ?: ?(\[.*\])""".r findFirstMatchIn response.getResponseBody) yield m group 1
+      mapper.readValue[List[Artifact]](docs.getOrElse("[]"))
+    } else {
+      List.empty[Artifact]
+    }
+  }
+
+  private def execute(request: AsyncHttpClient#BoundRequestBuilder): Future[Response] = {
+    val result = Promise[Response]
+    request.execute(new AsyncCompletionHandler[Response]() {
+      override def onCompleted(response: Response): Response = {
+        result.success(response)
+        response
+      }
+
+      override def onThrowable(t: Throwable): Unit = {
+        result.failure(t)
+      }
+    })
+    result.future
   }
 }
