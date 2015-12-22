@@ -40,7 +40,7 @@ object MavenSearchClient {
           }
           futures.foldLeft(Future.successful(List.empty[Artifact]))((l, r) ⇒ {
             l.flatMap(l_list ⇒ {
-              r.map(l_list ++ unpacking(_))
+              r.map(l_list ::: unpacking(_))
             })
           })
         } else {
