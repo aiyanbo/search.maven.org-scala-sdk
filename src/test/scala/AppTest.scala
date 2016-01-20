@@ -41,14 +41,14 @@ class AppTest extends FunSuite {
 
   test("Select All") {
     val future = MavenSearchClient.selectAll("org.scala-lang", "scala-library")
-    val result = Await.result(future, 30.seconds)
+    val result = Await.result(future, 60.seconds)
     println(result)
   }
 
   test("Search") {
     val request = new MavenSearchRequest(Some("org.scala-lang"), Some("scala-library"), None)
     val future = MavenSearchClient.search(request)
-    val result = Await.result(future, 30.seconds)
+    val result = Await.result(future, 60.seconds)
     println(result)
   }
 

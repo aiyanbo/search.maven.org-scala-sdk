@@ -7,4 +7,4 @@ package org.jmotor.tools.dto
  *
  * @author Andy.Ai
  */
-case class Artifact(id: String, g: String, a: String, v: String, timestamp: Long, tags: Array[String])
+case class Artifact(id: String, g: String, a: String, v: String, timestamp: Long, tags: Seq[String])

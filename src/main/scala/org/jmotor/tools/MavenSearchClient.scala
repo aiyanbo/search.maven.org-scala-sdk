@@ -34,15 +34,10 @@ object MavenSearchClient {
         val rows = 50
         val count = (for (m ← """"versionCount": ?(\d+),""".r findFirstMatchIn response.getResponseBody) yield m group 1).getOrElse("0").toInt
         if (count > 0) {
-          val futures = for (index ← 0 to pages(count, rows)) yield {
+          Future.sequence((0 to pages(count, rows)).map(index ⇒ {
             val request = MavenSearchRequest(Some(groupId), Some(artifactId), None, rows = rows, start = index * rows)
             execute(client.prepareGet(s"$rootPath?${request.toParameter}"))
-          }
-          futures.foldLeft(Future.successful(List.empty[Artifact]))((l, r) ⇒ {
-            l.flatMap(l_list ⇒ {
-              r.map(l_list ::: unpacking(_))
-            })
-          })
+          })).map(responses ⇒ responses.flatMap(unpacking).toList)
         } else {
           Future.successful(List.empty[Artifact])
         }
