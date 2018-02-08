@@ -1,4 +1,4 @@
-name := "search-maevn-org-scala-sdk"
+name := "search-maven-org-scala-sdk"
 
 version := "1.0.0-SNAPSHOT"
 
