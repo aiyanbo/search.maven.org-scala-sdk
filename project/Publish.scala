@@ -27,7 +27,7 @@ object Publish extends AutoPlugin {
         <licenses>
           <license>
             <name>Apache License</name>
-            <url>http://www.apache.org/licenses/</url>
+            <url>https://www.apache.org/licenses/</url>
             <distribution>repo</distribution>
           </license>
         </licenses>
