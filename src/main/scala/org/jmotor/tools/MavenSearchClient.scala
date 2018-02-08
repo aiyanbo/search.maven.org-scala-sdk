@@ -21,11 +21,11 @@ class MavenSearchClient(path: String, httpClient: AsyncHttpClient) {
   mapper.registerModule(DefaultScalaModule)
   mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
-  def search(request: MavenSearchRequest)(implicit executor: ExecutionContext): Future[List[Artifact]] = {
+  def search(request: MavenSearchRequest)(implicit executor: ExecutionContext): Future[Seq[Artifact]] = {
     execute(httpClient.prepareGet(s"$path?${request.toParameter}")).map(unpacking)
   }
 
-  def selectAll(groupId: String, artifactId: String)(implicit executor: ExecutionContext): Future[List[Artifact]] = {
+  def selectAll(groupId: String, artifactId: String)(implicit executor: ExecutionContext): Future[Seq[Artifact]] = {
     val totalRequest = MavenSearchRequest(Some(groupId), Some(artifactId), None, core = "ga")
     execute(httpClient.prepareGet(s"$path?${totalRequest.toParameter}")).flatMap {
       case response if response.getStatusCode == 200 ⇒
@@ -35,11 +35,11 @@ class MavenSearchClient(path: String, httpClient: AsyncHttpClient) {
           Future.sequence((0 to pages(count, rows)).map(index ⇒ {
             val request = MavenSearchRequest(Some(groupId), Some(artifactId), None, rows = rows, start = index * rows)
             execute(httpClient.prepareGet(s"$path?${request.toParameter}"))
-          })).map(responses ⇒ responses.flatMap(unpacking).toList)
+          })).map(responses ⇒ responses.flatMap(unpacking))
         } else {
-          Future.successful(List.empty[Artifact])
+          Future.successful(Seq.empty[Artifact])
         }
-      case _ ⇒ Future.successful(List.empty[Artifact])
+      case _ ⇒ Future.successful(Seq.empty[Artifact])
     }
   }
 
@@ -60,12 +60,12 @@ class MavenSearchClient(path: String, httpClient: AsyncHttpClient) {
     }
   }
 
-  private def unpacking(response: Response): List[Artifact] = {
+  private def unpacking(response: Response): Seq[Artifact] = {
     if (response.getStatusCode == 200) {
       val docs = for (m ← """"docs" ?: ?(\[.*\])""".r findFirstMatchIn response.getResponseBody) yield m group 1
-      mapper.readValue[List[Artifact]](docs.getOrElse("[]"))
+      mapper.readValue[Seq[Artifact]](docs.getOrElse("[]"))
     } else {
-      List.empty[Artifact]
+      Seq.empty[Artifact]
     }
   }
 
