@@ -3,10 +3,11 @@ package org.jmotor.tools
 import com.fasterxml.jackson.databind.{ DeserializationFeature, ObjectMapper }
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
-import org.asynchttpclient.{ AsyncCompletionHandler, AsyncHttpClient, BoundRequestBuilder, Response }
+import org.asynchttpclient.{ AsyncHttpClient, Response }
 import org.jmotor.tools.dto.{ Artifact, MavenSearchRequest }
+import org.jmotor.tools.http.AsyncHttpClientConversions._
 
-import scala.concurrent.{ ExecutionContext, Future, Promise }
+import scala.concurrent.{ ExecutionContext, Future }
 
 /**
  * Component:
@@ -22,19 +23,19 @@ class MavenSearchClient(path: String, httpClient: AsyncHttpClient) {
   mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
   def search(request: MavenSearchRequest)(implicit executor: ExecutionContext): Future[Seq[Artifact]] = {
-    execute(httpClient.prepareGet(s"$path?${request.toParameter}")).map(unpacking)
+    httpClient.prepareGet(s"$path?${request.toParameter}").toFuture.map(unpacking)
   }
 
   def selectAll(groupId: String, artifactId: String)(implicit executor: ExecutionContext): Future[Seq[Artifact]] = {
     val totalRequest = MavenSearchRequest(Some(groupId), Some(artifactId), None, core = "ga")
-    execute(httpClient.prepareGet(s"$path?${totalRequest.toParameter}")).flatMap {
+    httpClient.prepareGet(s"$path?${totalRequest.toParameter}").toFuture.flatMap {
       case response if response.getStatusCode == 200 ⇒
         val rows = 50
         val count = (for (m ← """"versionCount": ?(\d+),""".r findFirstMatchIn response.getResponseBody) yield m group 1).getOrElse("0").toInt
         if (count > 0) {
           Future.sequence((0 to pages(count, rows)).map(index ⇒ {
             val request = MavenSearchRequest(Some(groupId), Some(artifactId), None, rows = rows, start = index * rows)
-            execute(httpClient.prepareGet(s"$path?${request.toParameter}"))
+            httpClient.prepareGet(s"$path?${request.toParameter}").toFuture
           })).map(responses ⇒ responses.flatMap(unpacking))
         } else {
           Future.successful(Seq.empty[Artifact])
@@ -45,7 +46,7 @@ class MavenSearchClient(path: String, httpClient: AsyncHttpClient) {
 
   def latestVersion(groupId: String, artifactId: String)(implicit executor: ExecutionContext): Future[Option[String]] = {
     val request = MavenSearchRequest(Some(groupId), Some(artifactId), None, core = "ga", rows = 1)
-    execute(httpClient.prepareGet(s"$path?${request.toParameter}")).map {
+    httpClient.prepareGet(s"$path?${request.toParameter}").toFuture.map {
       case response if response.getStatusCode == 200 ⇒
         for (m ← """"latestVersion": ?"([\d|\w|.|-]*)"""".r findFirstMatchIn response.getResponseBody) yield m group 1
       case _ ⇒ None
@@ -69,20 +70,6 @@ class MavenSearchClient(path: String, httpClient: AsyncHttpClient) {
     }
   }
 
-  private def execute(request: BoundRequestBuilder): Future[Response] = {
-    val result = Promise[Response]
-    request.execute(new AsyncCompletionHandler[Response]() {
-      override def onCompleted(response: Response): Response = {
-        result.success(response)
-        response
-      }
-
-      override def onThrowable(t: Throwable): Unit = {
-        result.failure(t)
-      }
-    })
-    result.future
-  }
 }
 
 object MavenSearchClient {

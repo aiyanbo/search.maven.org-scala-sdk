@@ -20,3 +20,11 @@ case class MavenSearchRequest(groupId: Option[String], artifactId: Option[String
     s"q=$parameters&core=$core&rows=$rows&wt=$wt&start=$start"
   }
 }
+
+object MavenSearchRequest {
+
+  def apply(groupId: String, artifactId: String, rows: Int): MavenSearchRequest = {
+    new MavenSearchRequest(Option(groupId), Option(artifactId), None, rows = rows)
+  }
+
+}
