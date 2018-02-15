@@ -1,4 +1,5 @@
 import sbt.Keys._
+import com.typesafe.sbt.SbtPgp.autoImportImpl.useGpg
 import sbt.{AutoPlugin, Credentials, Path, PluginTrigger, _}
 
 object Publish extends AutoPlugin {
@@ -6,6 +7,7 @@ object Publish extends AutoPlugin {
   override def trigger: PluginTrigger = allRequirements
 
   override def projectSettings: Seq[_root_.sbt.Def.Setting[_]] = Seq(
+    useGpg := false,
     publishMavenStyle := true,
     pomAllRepositories := false,
     pomIncludeRepository := { (repo: MavenRepository) =>
@@ -31,6 +33,10 @@ object Publish extends AutoPlugin {
             <distribution>repo</distribution>
           </license>
         </licenses>
+        <scm>
+          <url>git@github.com/aiyanbo/search.maven.org-scala-sdk.git</url>
+          <connection>scm:git:git@github.com/aiyanbo/search.maven.org-scala-sdk.git</connection>
+        </scm>
         <developers>
           <developer>
             <id>yanbo.ai</id>
