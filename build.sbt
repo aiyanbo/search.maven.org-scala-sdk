@@ -1,6 +1,6 @@
 name := "search-maven-org-scala-sdk"
 
-version := "1.0.0-SNAPSHOT"
+version := "1.0.0"
 
 organization := "org.jmotor.tools"
 
