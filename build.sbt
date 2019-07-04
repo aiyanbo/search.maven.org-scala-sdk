@@ -1,18 +1,31 @@
-name := "search-maven-org-scala-sdk"
+import Dependencies.Versions
+import org.jmotor.sbt.plugin.ComponentSorter
+import sbtrelease.ReleasePlugin.autoImport.ReleaseTransformations._
 
-version := "1.0.0"
+name := "search-maven-org-scala-sdk"
 
 organization := "org.jmotor.tools"
 
-scalaVersion := "2.12.4"
+scalaVersion := Versions.scala213
 
-crossScalaVersions := Seq("2.11.7", scalaVersion.value)
+crossScalaVersions := Seq(Versions.scala211, Versions.scala212, scalaVersion.value)
 
-libraryDependencies ++= Seq(
-  "org.asynchttpclient" % "async-http-client" % "2.3.0",
-  "com.fasterxml.jackson.core" % "jackson-databind" % "2.9.4",
-  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.9.4",
-  "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+dependencyUpgradeComponentSorter := ComponentSorter.ByAlphabetically
+
+releasePublishArtifactsAction := PgpKeys.publishSigned.value
+
+releaseCrossBuild := true
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  publishArtifacts,
+  setNextVersion,
+  commitNextVersion,
+  pushChanges
 )
-
-Formatting.formatSettings
