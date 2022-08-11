@@ -1,12 +1,13 @@
-import org.jmotor.tools.MavenSearchClient
+package org.jmotor.tools
+
 import org.jmotor.tools.dto.MavenSearchRequest
-import org.scalatest._
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 
-class AppTest extends FunSuite {
+class MavenSearchClientSpec extends AnyFunSuite {
   private[this] val client = MavenSearchClient()
   private val orgId = "org.scala-lang"
   private val artId = "scala-library"

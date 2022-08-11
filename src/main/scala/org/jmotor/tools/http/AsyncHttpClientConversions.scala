@@ -1,15 +1,14 @@
 package org.jmotor.tools.http
 
-import org.asynchttpclient.{ AsyncCompletionHandler, AsyncHttpClient, BoundRequestBuilder, Response }
+import org.asynchttpclient.{AsyncCompletionHandler, AsyncHttpClient, BoundRequestBuilder, Response}
 
-import scala.concurrent.{ ExecutionContext, Future, Promise }
+import scala.concurrent.{ExecutionContext, Future, Promise}
 
 /**
- * Component:
- * Description:
- * Date: 2018/2/8
+ * Component: Description: Date: 2018/2/8
  *
- * @author AI
+ * @author
+ *   AI
  */
 object AsyncHttpClientConversions {
 
@@ -23,9 +22,8 @@ object AsyncHttpClientConversions {
           response
         }
 
-        override def onThrowable(t: Throwable): Unit = {
+        override def onThrowable(t: Throwable): Unit =
           result.failure(t)
-        }
       })
       result.future
     }

@@ -1,13 +1,7 @@
-addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.2-1")
+addDependencyTreePlugin
 
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.11")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.6")
 
-addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.8.3")
+addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.10")
 
-addSbtPlugin("io.get-coursier" % "sbt-coursier" % "1.1.0-M14-4")
-
-addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
-
-addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.9.0")
-
-addSbtPlugin("org.jmotor.sbt" % "sbt-dependency-updates" % "1.2.0")
+addSbtPlugin("org.jmotor.sbt" % "sbt-dependency-updates" % "1.2.5")
