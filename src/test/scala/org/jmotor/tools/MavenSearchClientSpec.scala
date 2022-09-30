@@ -42,4 +42,19 @@ class MavenSearchClientSpec extends AnyFunSuite {
     }
   }
 
+  test("okhttp") {
+    val akkaFuture = client.search(MavenSearchRequest("com.typesafe.akka", "akka-stream_2.13"))
+    val zioFuture = client.search(MavenSearchRequest("dev.zio", "zio-streams_2.13"))
+
+    val future = for {
+      akka <- akkaFuture
+      zio <- zioFuture
+    } yield (akka, zio)
+
+    val (akka, zio) = Await.result(future, 60.seconds)
+    assert(akka.nonEmpty)
+    assert(zio.nonEmpty)
+
+  }
+
 }
